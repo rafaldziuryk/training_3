@@ -32,24 +32,41 @@ class _PokemonListState extends State<PokemonList> {
                 itemCount: results.length,
                 itemBuilder: (context, index) {
                   final element = results[index];
-                  return AnimatedOpacity(
-                    duration: kThemeAnimationDuration,
-                    opacity: selectedIndex == index ? 1.0 : 0.8,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          if (selectedIndex == index) {
-                            selectedIndex = null;
-                          } else {
-                            selectedIndex = index;
-                          }
-                        });
-                      },
-                      title: Text("Pokemon ${element["name"]}"),
-                      leading: Image(
-                          image: CachedNetworkImageProvider(
-                        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png",
-                      )),
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (selectedIndex == index) {
+                          selectedIndex = null;
+                        } else {
+                          selectedIndex = index;
+                        }
+                      });
+                    },
+                    child: AnimatedContainer(
+                      duration: kThemeAnimationDuration,
+                      height: selectedIndex == index ? 100 : 60,
+                      color: Colors.white,
+                      child: AnimatedOpacity(
+                        duration: kThemeAnimationDuration,
+                        opacity: selectedIndex == index ? 1.0 : 0.8,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Image(
+                                image: CachedNetworkImageProvider(
+                                  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png",
+                                ),
+                              ),
+                              Expanded(
+                                  child: Text(
+                                "Pokemon ${element["name"]}",
+                                textAlign: TextAlign.center,
+                              ))
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 },
