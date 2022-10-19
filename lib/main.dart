@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/pokemon-list.dart';
+import 'package:weather/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const PokemonList()
+      home: const SplashScreen()
     );
   }
 }
