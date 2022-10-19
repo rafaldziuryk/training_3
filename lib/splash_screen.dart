@@ -1,7 +1,10 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:weather/di_container.dart';
 import 'package:weather/pokemon-list.dart';
+import 'package:weather/router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final diContainer = DiContainer();
     diContainer.registerDependency().then((value) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PokemonList(),));
+        AutoRouter.of(context).replaceNamed(PokemonListRoute().path);
       });
     });
     super.initState();
