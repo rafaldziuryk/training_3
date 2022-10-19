@@ -34,6 +34,8 @@ dependencies:
   cached_network_image: ^3.2.2
   path_provider: ^2.0.11
   hive_flutter: ^1.1.0
+  flutter_bloc: ^8.1.1
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
 
