@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather/auth/auth_bloc.dart';
 import 'package:weather/pokemon-list.dart';
 import 'package:weather/router.dart';
 import 'package:weather/splash_screen.dart';
@@ -11,16 +13,30 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  final _appRouter = AppRouter();
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerDelegate: AutoRouterDelegate(
-        _appRouter,
+    return BlocProvider(
+      create: (context) => AuthBloc(),
+      child: Builder(
+          builder: (context) {
+            return BlocBuilder<AuthBloc,AuthState>(
+              builder: (context, state) {
+                if (state is AuthLogIn) {
+                  final _appRouter = AppRouter();
+                  return MaterialApp.router(
+                    routerDelegate: AutoRouterDelegate(
+                      _appRouter,
+                    ),
+                    routeInformationParser: _appRouter.defaultRouteParser(),
+                  );
+                } else {
+                  return MaterialApp(home: SplashScreen(),);
+                }
+              }
+            );
+          }
       ),
-      routeInformationParser: _appRouter.defaultRouteParser(),
     );
   }
 }
@@ -96,7 +112,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .headline4,
             ),
           ],
         ),

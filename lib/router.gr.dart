@@ -17,12 +17,6 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    SplashScreenRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const SplashScreen(),
-      );
-    },
     PokemonListRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -47,8 +41,10 @@ class _$AppRouter extends RootStackRouter {
   @override
   List<RouteConfig> get routes => [
         RouteConfig(
-          SplashScreenRoute.name,
+          '/#redirect',
           path: '/',
+          redirectTo: '/pokemon',
+          fullMatch: true,
         ),
         RouteConfig(
           PokemonListRoute.name,
@@ -59,18 +55,6 @@ class _$AppRouter extends RootStackRouter {
           path: '/pokemon/:name',
         ),
       ];
-}
-
-/// generated route for
-/// [SplashScreen]
-class SplashScreenRoute extends PageRouteInfo<void> {
-  const SplashScreenRoute()
-      : super(
-          SplashScreenRoute.name,
-          path: '/',
-        );
-
-  static const String name = 'SplashScreenRoute';
 }
 
 /// generated route for

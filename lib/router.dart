@@ -9,8 +9,7 @@ part 'router.gr.dart';
 
 @CustomAutoRouter(
     routes: <AutoRoute>[
-      MaterialRoute(page: SplashScreen, path: "/"),
-      MaterialRoute(page: PokemonList, path: "/pokemon"),
+      MaterialRoute(page: PokemonList, path: "/pokemon", initial: true),
       MaterialRoute(page: PokemonDetail, path: "/pokemon/:name")
     ])
 class AppRouter extends _$AppRouter{

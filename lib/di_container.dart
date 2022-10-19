@@ -7,7 +7,7 @@ class DiContainer {
   Future<void> registerDependency() async {
     final dio = Dio(BaseOptions(baseUrl: "https://pokeapi.co/api/v2/"));
 
-
+    await GetIt.instance.reset(dispose: true);
     await Hive.initFlutter();
     if (!Hive.isAdapterRegistered(PokemonAdapter().typeId)) {
       Hive.registerAdapter(PokemonAdapter());
