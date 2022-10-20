@@ -14,7 +14,7 @@ class PokemonRepositoryImplementation extends PokemonRepository {
   Future<UseCaseResult<Fail, List<Pokemon>>> getPokemonsFromRemote() async {
     try {
       final data = await remoteDatasource.getPokemons();
-      return UseCaseResult.success(data);
+      return UseCaseResult.success(data: data);
     } catch (error) {
       return UseCaseResult.error(ServerFail());
     }
@@ -24,17 +24,17 @@ class PokemonRepositoryImplementation extends PokemonRepository {
   Future<UseCaseResult<Fail, List<Pokemon>>> getPokemonsFromLocal() async {
     try {
       final data = await localDatasource.read();
-      return UseCaseResult.success(data);
+      return UseCaseResult.success(data: data);
     } catch (error) {
       return UseCaseResult.error(LocalFail());
     }
   }
 
   @override
-  Future<UseCaseResult<Fail, bool>> savePokemonsToLocal(List<Pokemon> pokemons) async {
+  Future<UseCaseResult<Fail, void>> savePokemonsToLocal(List<Pokemon> pokemons) async {
     try {
       await localDatasource.save(pokemons);
-      return UseCaseResult.success(true);
+      return UseCaseResult.success();
     } catch (error) {
       return UseCaseResult.error(LocalFail());
     }

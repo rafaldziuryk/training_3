@@ -16,13 +16,21 @@ class NoParams extends Equatable {
 class UseCaseResult<F, T> {
   final F? failure;
   final T? data;
-  bool get isSuccess => data != null;
 
-  const UseCaseResult({
+  final UseCaseResultState state;
+
+  bool get isSuccess => state == UseCaseResultState.success;
+
+  const UseCaseResult._({
     this.failure,
     this.data,
+    required this.state,
   });
 
-  factory UseCaseResult.success(T data) => UseCaseResult(data: data, failure: null);
-  factory UseCaseResult.error(F error) => UseCaseResult(data: null, failure: error);
+  factory UseCaseResult.success({T? data}) =>
+      UseCaseResult._(data: data, failure: null, state: UseCaseResultState.success);
+  factory UseCaseResult.error(F error) =>
+      UseCaseResult._(data: null, failure: error, state: UseCaseResultState.failure);
 }
+
+enum UseCaseResultState { success, failure }
