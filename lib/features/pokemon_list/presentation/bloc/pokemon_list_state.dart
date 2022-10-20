@@ -14,17 +14,16 @@ class PokemonListPending extends PokemonListState {
   List<Object> get props => [];
 }
 
+@immutable
 class PokemonListData extends PokemonListState {
-
-  int selectedIndex;
-  List<Pokemon> list;
+  final int selectedIndex;
+  final List<Pokemon> list;
 
   @override
   List<Object> get props => [list, selectedIndex];
 
-  PokemonListData({
+  const PokemonListData({
     required this.list,
-    required this.selectedIndex
+    required this.selectedIndex,
   });
-
 }

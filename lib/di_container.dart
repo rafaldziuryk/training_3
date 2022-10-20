@@ -26,7 +26,12 @@ class DiContainer {
     GetIt.instance.registerSingleton<Box<Pokemon>>(box);
     GetIt.instance.registerSingleton<PokemonLocalDatasource>(PokemonLocalDatasource(pokemonsBox: di.get()));
     GetIt.instance.registerSingleton<PokemonRemoteDatasource>(PokemonRemoteDatasource(dio: di.get()));
-    GetIt.instance.registerSingleton<PokemonRepository>(PokemonRepositoryImplementation(localDatasource: di.get(), remoteDatasource: di.get()));
-    GetIt.instance.registerSingleton<GetPokemonUseCase>(GetPokemonUseCase(pokemonRepository: di.get()));
+    GetIt.instance.registerSingleton<PokemonRepository>(
+      PokemonRepositoryImplementation(
+        localDatasource: di.get(),
+        remoteDatasource: di.get(),
+      ),
+    );
+    GetIt.instance.registerSingleton<GetPokemonsUseCase>(GetPokemonsUseCase(pokemonRepository: di.get()));
   }
 }

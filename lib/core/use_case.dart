@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:weather/core/fail.dart';
 
 abstract class UseCase<Type, Params> {
@@ -14,23 +13,43 @@ class NoParams extends Equatable {
 }
 
 class UseCaseResult<F, T> {
-  final F? failure;
-  final T? data;
+  final F? resultFailure;
+  final T? resultData;
+
+  T get data {
+    final data = resultData;
+
+    if (state != UseCaseResultState.success) {
+      throw UseCaseResultStateFail();
+    }
+
+    return data ?? (throw UseCaseResultStateFail());
+  }
+
+  F get failure {
+    final failure = resultFailure;
+
+    if (state != UseCaseResultState.failure) {
+      throw UseCaseResultStateFail();
+    }
+
+    return failure ?? (throw UseCaseResultStateFail());
+  }
 
   final UseCaseResultState state;
 
   bool get isSuccess => state == UseCaseResultState.success;
 
   const UseCaseResult._({
-    this.failure,
-    this.data,
+    this.resultFailure,
+    this.resultData,
     required this.state,
   });
 
   factory UseCaseResult.success({T? data}) =>
-      UseCaseResult._(data: data, failure: null, state: UseCaseResultState.success);
+      UseCaseResult._(resultData: data, resultFailure: null, state: UseCaseResultState.success);
   factory UseCaseResult.error(F error) =>
-      UseCaseResult._(data: null, failure: error, state: UseCaseResultState.failure);
+      UseCaseResult._(resultData: null, resultFailure: error, state: UseCaseResultState.failure);
 }
 
 enum UseCaseResultState { success, failure }

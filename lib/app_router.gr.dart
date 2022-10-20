@@ -10,7 +10,7 @@
 //
 // ignore_for_file: type=lint
 
-part of 'router.dart';
+part of 'app_router.dart';
 
 class _$AppRouter extends RootStackRouter {
   _$AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
@@ -26,8 +26,7 @@ class _$AppRouter extends RootStackRouter {
     PokemonDetailRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<PokemonDetailRouteArgs>(
-          orElse: () =>
-              PokemonDetailRouteArgs(name: pathParams.getString('name')));
+          orElse: () => PokemonDetailRouteArgs(name: pathParams.getString('name')));
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: PokemonDetail(
