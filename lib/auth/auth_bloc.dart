@@ -9,20 +9,19 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<AuthInitEvent>((event, emit) {
-      print ("Event $event" );
+      print("Event $event");
       emit(AuthLogOut());
     });
 
     on<AuthLoginEvent>((event, emit) {
-      print ("Event $event" );
+      print("Event $event");
       emit(AuthLogIn());
 
-      // Future.delayed(Duration(seconds: 4), () => add(AuthLogoutEvent()));
-
+      Future.delayed(Duration(seconds: 10), () => add(AuthLogoutEvent()));
     });
 
     on<AuthLogoutEvent>((event, emit) {
-      print ("Event $event" );
+      print("Event $event");
       emit(AuthLogOut());
     });
   }
