@@ -1,29 +1,90 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
-#
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
-
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
 linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at
-  # https://dart-lang.github.io/linter/lints/index.html.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
-  rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+# The lint rules applied to this project can be customized in the
+# section below to disable rules from the `package:flutter_lints/flutter.yaml`
+# included above or to enable additional rules. A list of all available lints
+# and their documentation is published at
+# https://dart-lang.github.io/linter/lints/index.html.
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+
+
+analyzer:
+  plugins:
+    - dart_code_metrics
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.gr.dart"
+    - "**/*.mocks.dart"
+    - lib/generated/**
+    - bin/cache/**
+    - tools/**
+    - .fvm/**
+
+dart_code_metrics:
+  rules:
+    - member-ordering:
+      alphabetize: false
+    - avoid-missing-enum-constant-in-map
+    - avoid-nested-conditional-expressions
+    - avoid-non-null-assertion
+    - avoid-throw-in-catch-block
+    - avoid-unnecessary-type-assertions
+    - avoid-unnecessary-type-casts
+    - avoid-unrelated-type-assertions
+    - avoid-unused-parameters
+    - double-literal-format
+    - newline-before-return
+    - no-empty-block
+    - no-equal-arguments:
+      ignored-parameters:
+        - height
+        - width
+        - textDirection
+        - layoutDirection
+    - no-equal-then-else
+    - no-object-declaration
+    - prefer-correct-identifier-length:
+        max-identifier-length: 70
+        min-identifier-length: 2
+    - prefer-correct-type-name:
+        max-length: 70
+        min-length: 2
+    - prefer-match-file-name
+    - no-magic-number
+    - prefer-trailing-comma
+    - always-remove-listener
+    - avoid-unnecessary-setstate
+    - avoid-wrapping-in-padding
+    - prefer-const-border-radius
+    - prefer-extracting-callbacks
+    - prefer-single-widget-per-file:
+        ignore-private-widgets: true
+  rules-exclude:
+    - "**/mocks/**"
+    - mocks/**
+    - "**/test/**"
+    - test/**
+    - tools/**
+  metrics:
+    # cyclomatic-complexity: 20
+    source-lines-of-code: 70
+    maximum-nesting-level: 4
+    number-of-parameters: 4
+    technical-debt:
+      threshold: 1
+      todo-cost: 161
+      ignore-cost: 320
+      ignore-for-file-cost: 396
+      as-dynamic-cost: 322
+      deprecated-annotations-cost: 37
+      file-nullsafety-migration-cost: 41
+      unit-type: "USD"
+  metrics-exclude:
+    - "**/mocks/**"
+    - mocks/**
+    - "**/test/**"
+    - test/**
+  anti-patterns:
+    - long-method
+    - long-parameter-list
