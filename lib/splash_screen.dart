@@ -5,8 +5,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather/auth/auth_bloc.dart';
 import 'package:weather/di_container.dart';
-import 'package:weather/pokemon-list.dart';
-import 'package:weather/router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

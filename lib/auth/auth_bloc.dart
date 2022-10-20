@@ -17,7 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       print ("Event $event" );
       emit(AuthLogIn());
 
-      Future.delayed(Duration(seconds: 4), () => add(AuthLogoutEvent()));
+      // Future.delayed(Duration(seconds: 4), () => add(AuthLogoutEvent()));
 
     });
 

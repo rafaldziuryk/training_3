@@ -1,9 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:weather/pages/pokemon_detail.dart';
-import 'package:weather/pokemon-list.dart';
-import 'package:weather/splash_screen.dart';
+import 'package:weather/features/pokemon_list/presentation/pages/pokemon_detail.dart';
+import 'package:weather/features/pokemon_list/presentation/pages/pokemon_list.dart';
 
 part 'router.gr.dart';
 
