@@ -23,11 +23,21 @@ class PokemonDetail extends StatelessWidget {
     return BlocProvider(
       create: (context) => PokemonDetailBloc()..add(PokemonDetailInitEvent(name: name)),
       child: Scaffold(
-        appBar: AppBar(title: const SessionInformation()),
+        backgroundColor: Colors.red,
+        appBar: AppBar(
+          title: const SessionInformation(),
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+        ),
         body: BlocBuilder<PokemonDetailBloc, PokemonDetailState>(
           builder: (context, state) {
             return Column(
               children: [
+                const Chip(
+                  label: Text("Test"),
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                ),
                 Hero(
                   tag: "${name}_image",
                   child: Image(

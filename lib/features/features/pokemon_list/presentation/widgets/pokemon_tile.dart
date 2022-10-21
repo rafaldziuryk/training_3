@@ -26,7 +26,7 @@ class PokemonTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       key: Key(element.name),
-      confirmDismiss: (direction) async => onDismiss(context),
+      confirmDismiss: (direction) async => onDismniss(context),
       child: GestureDetector(
         onTap: () => BlocProvider.of<PokemonListBloc>(context).add(PokemonListToggleSelectEvent(selectedIndex: index)),
         child: AnimatedContainer(
@@ -56,7 +56,7 @@ class PokemonTile extends StatelessWidget {
                     ),
                   ),
                   Icon(
-                    element.isLiked ? Icons.heart_broken : Icons.heart_broken_outlined,
+                    element.isLiked ? Icons.favorite_outlined : Icons.favorite_border,
                   ),
                   AnimatedOpacity(
                     duration: kThemeAnimationDuration,
@@ -77,7 +77,7 @@ class PokemonTile extends StatelessWidget {
     );
   }
 
-  bool onDismiss(BuildContext context) {
+  bool onDismniss(BuildContext context) {
     BlocProvider.of<PokemonListBloc>(context).add(PokemonListToggleLikedEvent(pokemon: element));
 
     return false;

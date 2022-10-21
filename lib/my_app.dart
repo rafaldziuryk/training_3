@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather/splash_screen.dart';
+import 'package:weather/features/pokemon_list/presentation/pages/pokemon_detail.dart';
 
 import 'app_router.dart';
 import 'auth/auth_bloc.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
                 );
               } else {
                 return const MaterialApp(
-                  home: SplashScreen(),
+                  home: PokemonDetail(name: "Pikachu", index: 25),
                 );
               }
             },

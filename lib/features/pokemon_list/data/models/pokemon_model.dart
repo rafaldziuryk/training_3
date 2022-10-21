@@ -3,6 +3,7 @@ import 'package:weather/features/pokemon_list/domain/entities/pokemon.dart';
 
 part 'pokemon_model.g.dart';
 
+//ignore_for_file:no-magic-number
 @HiveType(typeId: 1)
 class PokemonModel extends Pokemon {
   @override
@@ -16,7 +17,6 @@ class PokemonModel extends Pokemon {
   @override
   @HiveField(2)
   final bool isLiked;
-
 
   Map<String, dynamic> toMap() {
     return {
