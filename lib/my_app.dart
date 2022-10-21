@@ -17,30 +17,36 @@ class MyApp extends StatelessWidget {
       child: Builder(
         builder: (context) {
           return BlocBuilder<AuthBloc, AuthState>(
-              buildWhen: (previous, current) =>
-                  previous.runtimeType != current.runtimeType,
-              builder: (context, state) {
-                if (state is AuthLogIn) {
-                  final appRouter = AppRouter();
+            buildWhen: checkIfBuildNeeded,
+            builder: (context, state) {
+              if (state is AuthLogIn) {
+                final appRouter = AppRouter();
 
-                  return MouseRegion(
-                    onHover: (event) => BlocProvider.of<AuthBloc>(context)
-                        .add(AuthExtendSessionEvent()),
+                return Listener(
+                  onPointerSignal: (event) => BlocProvider.of<AuthBloc>(context).add(AuthExtendSessionEvent()),
+                  onPointerHover: (event) => BlocProvider.of<AuthBloc>(context).add(AuthExtendSessionEvent()),
+                  onPointerMove: (event) => BlocProvider.of<AuthBloc>(context).add(AuthExtendSessionEvent()),
+                  child: MouseRegion(
+                    onHover: (event) => BlocProvider.of<AuthBloc>(context).add(AuthExtendSessionEvent()),
                     child: MaterialApp.router(
                       routerDelegate: AutoRouterDelegate(
                         appRouter,
                       ),
                       routeInformationParser: appRouter.defaultRouteParser(),
                     ),
-                  );
-                } else {
-                  return const MaterialApp(
-                    home: SplashScreen(),
-                  );
-                }
-              });
+                  ),
+                );
+              } else {
+                return const MaterialApp(
+                  home: SplashScreen(),
+                );
+              }
+            },
+          );
         },
       ),
     );
   }
+
+  bool checkIfBuildNeeded(AuthState previous, AuthState current) => previous.runtimeType != current.runtimeType;
 }

@@ -9,30 +9,35 @@ class SessionInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Stream.periodic(Duration(seconds: 1)),
+      stream: Stream.periodic(const Duration(seconds: 1)),
       builder: (context, snapshot) {
         return BlocBuilder<AuthBloc, AuthState>(
-          buildWhen: (previous, current) {
-            if(previous is AuthLogIn && current is AuthLogIn){
-              final previousLogoutTime = previous.time;
-              var previousDifference = previousLogoutTime.difference(DateTime.now()).inSeconds;
-              final currentLogoutTime =  current.time;
-              var  currentDifference =  currentLogoutTime.difference(DateTime.now()).inSeconds;
-              return previousDifference != currentDifference;
-            }else
-              return false;
-
-          },
+          buildWhen: checkIfRebuildNeeded,
           builder: (context, state) {
             if (state is AuthLogIn) {
               final logoutTime = state.time;
               var difference = logoutTime.difference(DateTime.now());
+
               return Text(difference.inSeconds.toString());
             }
-            return Text("No time");
+
+            return const Text("No time");
           },
         );
       },
     );
+  }
+
+  bool checkIfRebuildNeeded(AuthState previous, AuthState current) {
+    if (previous is AuthLogIn && current is AuthLogIn) {
+      final previousLogoutTime = previous.time;
+      var previousDifference = previousLogoutTime.difference(DateTime.now()).inSeconds;
+      final currentLogoutTime = current.time;
+      var currentDifference = currentLogoutTime.difference(DateTime.now()).inSeconds;
+
+      return previousDifference != currentDifference;
+    } else {
+      return false;
+    }
   }
 }
