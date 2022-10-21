@@ -8,6 +8,7 @@ import 'package:weather/features/pokemon_list/data/repositories/pokemon_reposito
 import 'package:weather/features/pokemon_list/domain/entities/pokemon.dart';
 import 'package:weather/features/pokemon_list/domain/repositories/pokemon_repository.dart';
 import 'package:weather/features/pokemon_list/domain/use_case/get_pokemons_use_case.dart';
+import 'package:weather/features/pokemon_list/domain/use_case/toggle_pokemon_like_use_case.dart';
 
 class DiContainer {
   Future<void> registerDependency() async {
@@ -33,5 +34,6 @@ class DiContainer {
       ),
     );
     GetIt.instance.registerSingleton<GetPokemonsUseCase>(GetPokemonsUseCase(pokemonRepository: di.get()));
+    GetIt.instance.registerSingleton<TogglePokemonLikeUseCase>(TogglePokemonLikeUseCase(pokemonRepository: di.get()));
   }
 }

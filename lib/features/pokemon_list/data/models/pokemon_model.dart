@@ -13,6 +13,10 @@ class PokemonModel extends Pokemon {
   @HiveField(1)
   final String name;
 
+  @override
+  @HiveField(2)
+  final bool isLiked;
+
 
   Map<String, dynamic> toMap() {
     return {
@@ -24,11 +28,22 @@ class PokemonModel extends Pokemon {
     return PokemonModel(
       name: map['name'] as String,
       index: index,
+      isLiked: false,
     );
   }
 
   PokemonModel({
     required this.index,
     required this.name,
+    required this.isLiked,
   });
+
+  @override
+  String toString() {
+    return 'PokemonModel{index: $index, name: $name, isLiked: $isLiked}';
+  }
+
+  factory PokemonModel.fromPokemon(Pokemon pokemon, bool? isLiked) {
+    return PokemonModel(index: pokemon.index, name: pokemon.name, isLiked: isLiked ?? pokemon.isLiked);
+  }
 }

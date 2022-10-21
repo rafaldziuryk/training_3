@@ -6,7 +6,7 @@ class PokemonLocalDatasource {
 
   Future save(List<Pokemon> pokemons) async {
     await pokemonsBox.clear();
-    pokemonsBox.addAll(pokemons);
+    pokemonsBox.putAll(pokemons.asMap().map((key, value) => MapEntry(value.index, value)));
   }
 
   Future<List<Pokemon>> read() async {
@@ -16,4 +16,12 @@ class PokemonLocalDatasource {
   const PokemonLocalDatasource({
     required this.pokemonsBox,
   });
+
+  Pokemon getPokemonFromName(String name) {
+    return pokemonsBox.values.firstWhere((element) => element.name == name);
+  }
+
+  Future update(Pokemon pokemon) async {
+    pokemonsBox.putAt(pokemon.index, pokemon);
+  }
 }

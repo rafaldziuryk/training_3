@@ -24,43 +24,59 @@ class PokemonTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => BlocProvider.of<PokemonListBloc>(context).add(PokemonListToggleSelectEvent(selectedIndex: index)),
-      child: AnimatedContainer(
-        duration: kThemeAnimationDuration,
-        height: isSelected ? _imageSelectedHeight : _imageDeselectedHeight,
-        color: Colors.white,
-        child: AnimatedOpacity(
+    return Dismissible(
+      key: Key(element.name),
+      confirmDismiss: (direction) async {
+        print(direction);
+        print(element);
+        BlocProvider.of<PokemonListBloc>(context)
+            .add(PokemonListToggleLikedEvent(pokemon: element));
+        return false;
+      },
+      child: GestureDetector(
+        onTap: () => BlocProvider.of<PokemonListBloc>(context)
+            .add(PokemonListToggleSelectEvent(selectedIndex: index)),
+        child: AnimatedContainer(
           duration: kThemeAnimationDuration,
-          opacity: isSelected ? _tileSelectedOpacity : _tileDeselectedOpacity,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Hero(
-                  tag:"${element.name}_image",
-                  child: Image(
-                    image: CachedNetworkImageProvider(
-                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${element.index + 1}.png",
+          height: isSelected ? _imageSelectedHeight : _imageDeselectedHeight,
+          color: Colors.white,
+          child: AnimatedOpacity(
+            duration: kThemeAnimationDuration,
+            opacity: isSelected ? _tileSelectedOpacity : _tileDeselectedOpacity,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Hero(
+                    tag: "${element.name}_image",
+                    child: Image(
+                      image: CachedNetworkImageProvider(
+                        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${element.index + 1}.png",
+                      ),
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Text("No image"),
                     ),
-                    errorBuilder: (context, error, stackTrace) => const Text("No image"),
                   ),
-                ),
-                Expanded(
-                  child: Text(
-                    "Pokemon ${element.name}",
-                    textAlign: TextAlign.center,
+                  Expanded(
+                    child: Text(
+                      "Pokemon ${element.name}",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-                AnimatedOpacity(
-                  duration: kThemeAnimationDuration,
-                  opacity: isSelected ? 1 : 0,
-                  child: IconButton(
-                    onPressed: () => AutoRouter.of(context).pushNamed("/pokemon/${element.name}?index=${element.index + 1}"),
-                    icon: const Icon(Icons.arrow_downward),
+                  Icon(element.isLiked
+                      ? Icons.heart_broken
+                      : Icons.heart_broken_outlined,),
+                  AnimatedOpacity(
+                    duration: kThemeAnimationDuration,
+                    opacity: isSelected ? 1 : 0,
+                    child: IconButton(
+                      onPressed: () => AutoRouter.of(context).pushNamed(
+                          "/pokemon/${element.name}?index=${element.index + 1}"),
+                      icon: const Icon(Icons.arrow_downward),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

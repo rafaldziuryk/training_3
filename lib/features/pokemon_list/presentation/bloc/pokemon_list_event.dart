@@ -18,6 +18,14 @@ class PokemonListToggleSelectEvent extends PokemonListEvent {
   });
 }
 
+class PokemonListToggleLikedEvent extends PokemonListEvent {
+  final Pokemon pokemon;
+
+  const PokemonListToggleLikedEvent({
+    required this.pokemon,
+  });
+}
+
 class PokemonListSearchEvent extends PokemonListEvent {
   final String filter;
 

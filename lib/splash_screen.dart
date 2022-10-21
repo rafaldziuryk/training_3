@@ -4,7 +4,7 @@ import 'package:weather/auth/auth_bloc.dart';
 import 'package:weather/di_container.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+   const SplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

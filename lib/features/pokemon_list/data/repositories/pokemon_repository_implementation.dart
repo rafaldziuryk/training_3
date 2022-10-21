@@ -1,6 +1,7 @@
 import 'package:weather/core/fail.dart';
 import 'package:weather/core/use_case.dart';
 import 'package:weather/features/pokemon_list/data/datasources/pokemon_local_datasource.dart';
+import 'package:weather/features/pokemon_list/data/models/pokemon_model.dart';
 import 'package:weather/features/pokemon_list/domain/entities/pokemon.dart';
 import 'package:weather/features/pokemon_list/domain/repositories/pokemon_repository.dart';
 
@@ -47,4 +48,15 @@ class PokemonRepositoryImplementation extends PokemonRepository {
     required this.localDatasource,
     required this.remoteDatasource,
   });
+
+  @override
+  Future<UseCaseResult<Fail, Pokemon>> updatePokemon(Pokemon pokemon) async {
+    try {
+      await localDatasource.update(pokemon);
+
+      return UseCaseResult.success();
+    } catch (error) {
+      return UseCaseResult.error(LocalFail());
+    }
+  }
 }

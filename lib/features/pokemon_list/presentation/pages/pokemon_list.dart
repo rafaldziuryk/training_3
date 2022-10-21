@@ -18,7 +18,10 @@ class _PokemonListState extends State<PokemonList> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PokemonListBloc(getPokemonUseCase: GetIt.instance.get())..add(PokemonListInitEvent()),
+      create: (context) => PokemonListBloc(
+        getPokemonUseCase: GetIt.instance.get(),
+        togglePokemonLikeUseCase: GetIt.instance.get(),
+      )..add(PokemonListInitEvent()),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
@@ -32,7 +35,8 @@ class _PokemonListState extends State<PokemonList> {
                     child: TextField(
                       controller: editingController,
                       onChanged: (value) =>
-                          BlocProvider.of<PokemonListBloc>(context).add(PokemonListSearchEvent(filter: value)),
+                          BlocProvider.of<PokemonListBloc>(context)
+                              .add(PokemonListSearchEvent(filter: value)),
                     ),
                   ),
                   FloatingActionButton(
