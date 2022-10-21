@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:weather/auth/auth_bloc.dart';
 import 'package:weather/features/pokemon_list/presentation/bloc/pokemon_list_bloc.dart';
 import 'package:weather/features/pokemon_list/presentation/widgets/pokemon_list_widget.dart';
 import 'package:weather/features/pokemon_list/presentation/widgets/pokemon_tile.dart';
+import 'package:weather/features/shared/widgets/session_information.dart';
 
 class PokemonList extends StatefulWidget {
   const PokemonList({Key? key}) : super(key: key);
@@ -18,9 +20,14 @@ class _PokemonListState extends State<PokemonList> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PokemonListBloc(getPokemonUseCase: GetIt.instance.get())..add(PokemonListInitEvent()),
+      create: (context) =>
+      PokemonListBloc(getPokemonUseCase: GetIt.instance.get())
+        ..add(PokemonListInitEvent()),
       child: Builder(builder: (context) {
         return Scaffold(
+          appBar: AppBar(
+            title: SessionInformation(),
+          ),
           body: Column(
             children: [
               Row(
@@ -29,7 +36,8 @@ class _PokemonListState extends State<PokemonList> {
                     child: TextField(
                       controller: editingController,
                       onChanged: (value) =>
-                          BlocProvider.of<PokemonListBloc>(context).add(PokemonListSearchEvent(filter: value)),
+                          BlocProvider.of<PokemonListBloc>(context).add(
+                              PokemonListSearchEvent(filter: value)),
                     ),
                   ),
                   FloatingActionButton(

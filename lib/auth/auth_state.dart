@@ -10,8 +10,13 @@ class AuthInitial extends AuthState {
 }
 
 class AuthLogIn extends AuthState {
+  final DateTime time;
   @override
-  List<Object> get props => [];
+  List<Object> get props => [time];
+
+  const AuthLogIn({
+    required this.time,
+  });
 }
 
 class AuthLogOut extends AuthState {

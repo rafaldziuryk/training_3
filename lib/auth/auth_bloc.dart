@@ -2,24 +2,44 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+const Duration logoutTime = Duration(seconds: 30);
+
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc() : super(AuthInitial()) {
+
+  DateTime time = DateTime.now();
+
+
+
+  AuthBloc() : super(AuthLogIn(time: DateTime.now().add(logoutTime))) {
     on<AuthInitEvent>((event, emit) {
       emit(AuthLogOut());
     });
 
     on<AuthLoginEvent>((event, emit) {
-      emit(AuthLogIn());
+      emit(AuthLogIn(time: time));
+      time = DateTime.now().add(logoutTime);
+      Future.delayed(logoutTime, () => add(AuthCheckLogoutEvent()));
+    });
 
-      Future.delayed(const Duration(seconds: 10), () => add(AuthLogoutEvent()));
+    on<AuthCheckLogoutEvent>((event, emit) {
+      if(time.millisecondsSinceEpoch < DateTime.now().millisecondsSinceEpoch){
+        add(AuthLogoutEvent());
+      }
     });
 
     on<AuthLogoutEvent>((event, emit) {
       emit(AuthLogOut());
+    });
+
+    on<AuthExtendSessionEvent>((event, emit) {
+      time = DateTime.now().add(logoutTime);
+      emit(AuthLogIn(time: time));
+      Future.delayed(logoutTime, () => add(AuthCheckLogoutEvent()));
     });
   }
 }

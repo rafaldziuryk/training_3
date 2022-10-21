@@ -25,13 +25,18 @@ class _$AppRouter extends RootStackRouter {
     },
     PokemonDetailRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
+      final queryParams = routeData.queryParams;
       final args = routeData.argsAs<PokemonDetailRouteArgs>(
-          orElse: () => PokemonDetailRouteArgs(name: pathParams.getString('name')));
+          orElse: () => PokemonDetailRouteArgs(
+                name: pathParams.getString('name'),
+                index: queryParams.optInt('index'),
+              ));
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: PokemonDetail(
           name: args.name,
           key: args.key,
+          index: args.index,
         ),
       );
     },
@@ -74,14 +79,17 @@ class PokemonDetailRoute extends PageRouteInfo<PokemonDetailRouteArgs> {
   PokemonDetailRoute({
     required String name,
     Key? key,
+    required int? index,
   }) : super(
           PokemonDetailRoute.name,
           path: '/pokemon/:name',
           args: PokemonDetailRouteArgs(
             name: name,
             key: key,
+            index: index,
           ),
           rawPathParams: {'name': name},
+          rawQueryParams: {'index': index},
         );
 
   static const String name = 'PokemonDetailRoute';
@@ -91,14 +99,17 @@ class PokemonDetailRouteArgs {
   const PokemonDetailRouteArgs({
     required this.name,
     this.key,
+    required this.index,
   });
 
   final String name;
 
   final Key? key;
 
+  final int? index;
+
   @override
   String toString() {
-    return 'PokemonDetailRouteArgs{name: $name, key: $key}';
+    return 'PokemonDetailRouteArgs{name: $name, key: $key, index: $index}';
   }
 }

@@ -37,11 +37,14 @@ class PokemonTile extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Image(
-                  image: CachedNetworkImageProvider(
-                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${element.index + 1}.png",
+                Hero(
+                  tag:"${element.name}_image",
+                  child: Image(
+                    image: CachedNetworkImageProvider(
+                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${element.index + 1}.png",
+                    ),
+                    errorBuilder: (context, error, stackTrace) => const Text("No image"),
                   ),
-                  errorBuilder: (context, error, stackTrace) => const Text("No image"),
                 ),
                 Expanded(
                   child: Text(
@@ -53,7 +56,7 @@ class PokemonTile extends StatelessWidget {
                   duration: kThemeAnimationDuration,
                   opacity: isSelected ? 1 : 0,
                   child: IconButton(
-                    onPressed: () => AutoRouter.of(context).pushNamed("/pokemon/${element.name}"),
+                    onPressed: () => AutoRouter.of(context).pushNamed("/pokemon/${element.name}?index=${element.index + 1}"),
                     icon: const Icon(Icons.arrow_downward),
                   ),
                 ),

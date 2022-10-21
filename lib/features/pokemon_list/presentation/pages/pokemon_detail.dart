@@ -1,15 +1,57 @@
 import 'package:auto_route/annotations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather/features/pokemon_list/presentation/bloc/detail/pokemon_detail_bloc.dart';
+import 'package:weather/features/shared/widgets/session_information.dart';
 
 class PokemonDetail extends StatelessWidget {
   final String name;
+  final int? index;
 
-  const PokemonDetail({@PathParam('name') required this.name, Key? key}) : super(key: key);
+  const PokemonDetail(
+      {@PathParam('name') required this.name,
+      Key? key,
+      @QueryParam('index') required this.index})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text(name),
+    return BlocProvider(
+      create: (context) =>
+          PokemonDetailBloc()..add(PokemonDetailInitEvent(name: name)),
+      child: Scaffold(
+        appBar: AppBar(title: SessionInformation()),
+        body: BlocBuilder<PokemonDetailBloc, PokemonDetailState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                Hero(
+                  tag: "${name}_image",
+                  child: Image(
+                    fit: BoxFit.fill,
+                    height: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    image: CachedNetworkImageProvider(
+                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index ?? 100000 + 1}.png",
+                    ),
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Text("No image"),
+                  ),
+                ),
+                Center(
+                    child: Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.w800
+                  ),
+                )),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }

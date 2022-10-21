@@ -16,22 +16,29 @@ class MyApp extends StatelessWidget {
       create: (context) => AuthBloc(),
       child: Builder(
         builder: (context) {
-          return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-            if (state is AuthLogIn) {
-              final appRouter = AppRouter();
+          return BlocBuilder<AuthBloc, AuthState>(
+              buildWhen: (previous, current) =>
+                  previous.runtimeType != current.runtimeType,
+              builder: (context, state) {
+                if (state is AuthLogIn) {
+                  final appRouter = AppRouter();
 
-              return MaterialApp.router(
-                routerDelegate: AutoRouterDelegate(
-                  appRouter,
-                ),
-                routeInformationParser: appRouter.defaultRouteParser(),
-              );
-            } else {
-              return const MaterialApp(
-                home: SplashScreen(),
-              );
-            }
-          });
+                  return MouseRegion(
+                    onHover: (event) => BlocProvider.of<AuthBloc>(context)
+                        .add(AuthExtendSessionEvent()),
+                    child: MaterialApp.router(
+                      routerDelegate: AutoRouterDelegate(
+                        appRouter,
+                      ),
+                      routeInformationParser: appRouter.defaultRouteParser(),
+                    ),
+                  );
+                } else {
+                  return const MaterialApp(
+                    home: SplashScreen(),
+                  );
+                }
+              });
         },
       ),
     );
